@@ -1,7 +1,3 @@
-provider "aws" {
-  version = "2.33.0"
-  region = var.aws_region
-}
 resource "aws_iam_policy" "lambda_logging" {
   name        = "lambda_logging"
   path        = "/"
