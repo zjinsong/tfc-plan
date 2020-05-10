@@ -39,7 +39,6 @@ EOF
 resource "aws_iam_policy" "policy" {
   name        = "lambda-policy"
   description = "A lambda policy"
-
   policy = <<EOF
  {
   "Version": "2012-10-17",
@@ -50,7 +49,7 @@ resource "aws_iam_policy" "policy" {
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "arn:aws:logs:*:*:*",
+      "Resource": "*",
       "Effect": "Allow"
     }
   ]
