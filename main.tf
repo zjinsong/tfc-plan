@@ -5,7 +5,7 @@ provider "aws" {
 
    resource "aws_lambda_function" "example" {
    function_name = "my-function-tf"
-   role = "${aws_iam_role.iam_for_lambda_tf.arn}"
+   role = "${aws_iam_role.role.arn}"
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
    s3_key    = "lambda-test.zip"
@@ -16,39 +16,10 @@ provider "aws" {
    handler = "lambda_function.lambda_handler"
    runtime = "python2.7"
  }
-  resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
-  path        = "/"
-  description = "IAM policy for logging from a lambda"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*",
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
-}
-
-  resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = "${aws_iam_role_for_lambda}"
-  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
-}
-
  # IAM role which dictates what other AWS services the Lambda function
  # may access.
-  resource "aws_iam_role" "iam_for_lambda_tf" {
+  resource "aws_iam_role" "role" {
   name = "iam_for_lambda_tf"
-
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -64,4 +35,29 @@ EOF
   ]
 }
 EOF
+}
+resource "aws_iam_policy" "policy" {
+  name        = "lambda-policy"
+  description = "A lambda policy"
+
+  policy = <<EOF
+ {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+resource "aws_iam_role_policy_attachment" "lambda-attach" {
+  role       = "${aws_iam_role.role.name}"
+  policy_arn = "${aws_iam_policy.policy.arn}"
 }
