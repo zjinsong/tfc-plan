@@ -5,7 +5,7 @@ provider "aws" {
 
    resource "aws_lambda_function" "example" {
    function_name = "my-function-tf"
-   role= "arn:aws-cn:iam::326449571384:role/tf-role"
+   role = "${aws_iam_role.iam_for_lambda_tf.arn}"
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
    s3_key    = "lambda-test.zip"
@@ -19,23 +19,22 @@ provider "aws" {
 
  # IAM role which dictates what other AWS services the Lambda function
  # may access.
- resource "aws_iam_role" "lambda_exec" {
-   name = "tf-role"
+  resource "aws_iam_role" "iam_for_lambda_tf" {
+  name = "iam_for_lambda_tf"
 
-   assume_role_policy = <<EOF
- {
-   "Version": "2012-10-17",
-   "Statement": [
-     {
-       "Action": "sts:AssumeRole",
-       "Principal": {
-         "Service": "lambda.amazonaws.com"
-       },
-       "Effect": "Allow",
-       "Sid": ""
-     }
-   ]
- }
- EOF
-
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
  }
