@@ -4,7 +4,7 @@ provider "aws" {
 }
 
    resource "aws_lambda_function" "example" {
-   function_name = "my-function-tf"
+   function_name = "my-function-tf1"
    role = "${aws_iam_role.role.arn}"
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
