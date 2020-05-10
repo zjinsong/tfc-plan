@@ -16,7 +16,7 @@ provider "aws" {
    handler = "lambda_function.lambda_handler"
    runtime = "python2.7"
  }
-resource "aws_iam_policy" "lambda_logging" {
+  resource "aws_iam_policy" "lambda_logging" {
   name        = "lambda_logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
@@ -31,12 +31,17 @@ resource "aws_iam_policy" "lambda_logging" {
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "*",
+      "Resource": "arn:aws:logs:*:*:*",
       "Effect": "Allow"
     }
   ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = "${aws_iam_role.iam_for_lambda.name}"
+  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
 }
 
  # IAM role which dictates what other AWS services the Lambda function
