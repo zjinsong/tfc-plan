@@ -1,3 +1,4 @@
-output "tfc_example_lambda_arn" {
-  value = aws_lambda.example.arn
+output "function_name" {
+  description = "The name of the Lambda function"
+  value       = aws_lambda_function.lambda.example
 }
