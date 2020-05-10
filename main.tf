@@ -5,10 +5,10 @@ provider "aws" {
 
    resource "aws_lambda_function" "example" {
    function_name = "my-function-tf"
-   role= "arn:aws-cn:iam::326449571384:role/lambda-s3-execution-role"
+   role= "arn:aws-cn:iam::326449571384:role/tf-role"
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
-   s3_key    = "/lambda-test.zip"
+   s3_key    = "lambda-test.zip"
 
    # "main" is the filename within the zip file (main.js) and "handler"
    # is the name of the property under which the handler function was
@@ -20,7 +20,7 @@ provider "aws" {
  # IAM role which dictates what other AWS services the Lambda function
  # may access.
  resource "aws_iam_role" "lambda_exec" {
-   name = "lambda-s3-execution-role"
+   name = "tf-role"
 
    assume_role_policy = <<EOF
  {
