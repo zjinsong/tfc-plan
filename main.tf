@@ -1,6 +1,7 @@
 provider "aws" {
-   version = "2.33.0"
-   }
+  version = "2.33.0"
+  region = var.aws_region
+}
 
    resource "aws_lambda_function" "example" {
    function_name = "my-function-tf"
