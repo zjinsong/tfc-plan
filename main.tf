@@ -60,7 +60,7 @@ EOF
 }
 EOF
 resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role = "${aws_iam_role.iam_for_lambda_tf.arn}"
+  role = "arn:aws-cn:iam::326449571384:role/iam_for_lambda_tf"
   policy_arn = "${aws_iam_policy.lambda_logging.arn}"
 }
 }
