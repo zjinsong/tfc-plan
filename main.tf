@@ -3,7 +3,7 @@ provider "aws" {
 }
 
  resource "aws_lambda_function" "example" {
-   function_name = "Serverless"
+   function_name = "ServerlessExample"
 
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
