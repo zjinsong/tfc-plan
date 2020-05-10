@@ -4,7 +4,7 @@ provider "aws" {
 }
 
    resource "aws_lambda_function" "example" {
-   function_name = "my-function-tf1"
+   function_name = "my-function"
    role = "${aws_iam_role.role.arn}"
    # The bucket name as created earlier with "aws s3api create-bucket"
    s3_bucket = "repo-lambda"
@@ -19,7 +19,7 @@ provider "aws" {
  # IAM role which dictates what other AWS services the Lambda function
  # may access.
   resource "aws_iam_role" "role" {
-  name = "iam_for_lambda_tf"
+  name = "lambda-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
